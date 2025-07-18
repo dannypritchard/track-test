@@ -1,6 +1,7 @@
 services:
   api:
     image: webdevops/php-nginx-dev:8.3
+    user: "${UID:-1000}:${GID:-1000}"
     container_name: backend
     working_dir: /app
     volumes:
@@ -11,6 +12,8 @@ services:
       - WEB_DOCUMENT_ROOT=/app/public
       - WEB_DOCUMENT_INDEX=index.php
     restart: unless-stopped
+    networks:
+      - track_network
     
   db:
     image: mysql:5.7
@@ -21,6 +24,8 @@ services:
       MYSQL_DATABASE: track_app
       MYSQL_USER: db_user
       MYSQL_PASSWORD: db_password
+    networks:
+      - track_network
 
   ui:
     image: node:22
@@ -34,10 +39,13 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     restart: unless-stopped
+    networks:
+      - track_network
 
 volumes:
   db_data:
 
 networks:
-  default:
-    
+  track_network:
+    name: track_network
+    driver: bridge
