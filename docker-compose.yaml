@@ -7,7 +7,7 @@ services:
     volumes:
       - ./backend:/app
     ports:
-      - "9000:80"
+      - "8000:80"
     environment:
       - WEB_DOCUMENT_ROOT=/app/public
       - WEB_DOCUMENT_INDEX=index.php
@@ -24,6 +24,8 @@ services:
       MYSQL_DATABASE: track_app
       MYSQL_USER: db_user
       MYSQL_PASSWORD: db_password
+    ports:
+      - "3306:3306"
     networks:
       - track_network
 
