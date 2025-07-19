@@ -17,7 +17,7 @@ class TrackController extends AbstractController
     {
     }
 
-        #[Route('/api/tracks', methods: ['GET'], format: 'json')]
+    #[Route('/api/tracks', methods: ['GET'], format: 'json')]
     public function getAll(): JsonResponse
     {
         $tracks = $this->trackRepository->findAll();

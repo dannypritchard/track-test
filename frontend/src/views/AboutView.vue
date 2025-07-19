@@ -8,8 +8,8 @@
       <h2 class="mb-3 text-2xl font-semibold text-gray-800">Backend</h2>
       <ul class="list-disc list-inside space-y-2 text-gray-700">
         <li>
-          Upgraded to Symfony 7.3 for the backend - latest version with lots of nice to haves and
-          security fixes
+          Upgraded to Symfony 6.4 for the backend - latest LTS version with lots of nice to haves
+          and security fixes
         </li>
         <li>
           Repository pattern with attribute-bound controller input DTOs for clear separation between
