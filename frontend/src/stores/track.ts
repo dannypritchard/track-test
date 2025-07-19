@@ -28,7 +28,11 @@ export const useTracksStore = defineStore('tracks', () => {
 
   const createTrack = async (payload: TrackRequest) => {
     const newTrack = await wrapRequest(() => api.createTrack(payload));
-    if (newTrack) tracks.value.push(newTrack);
+    if (newTrack) {
+      tracks.value.push(newTrack);
+      return true;
+    }
+    return false;
   };
 
   const updateTrack = async (id: number, payload: TrackRequest) => {
@@ -38,7 +42,9 @@ export const useTracksStore = defineStore('tracks', () => {
       if (idx !== -1) {
         tracks.value.splice(idx, 1, updated);
       }
+      return true;
     }
+    return false;
   };
 
   return {

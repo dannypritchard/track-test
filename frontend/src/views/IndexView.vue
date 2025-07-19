@@ -4,7 +4,7 @@
 
     <Loader v-if="loading" class="mb-4" />
 
-    <div v-if="error" class="mb-4 text-red-500">
+    <div v-if="error" class="mb-4 p-3 bg-red-100 text-red-800 rounded">
       {{ error }}
     </div>
 
@@ -68,20 +68,16 @@ const openEditModal = (track: Track) => {
 
 const createTrack = async (payload: TrackRequest) => {
   showModal.value = false;
-  await store.createTrack(payload);
-  notification.value = 'Track created successfully';
-  setTimeout(() => {
-    notification.value = null;
-  }, 3000);
+  notification.value = null;
+  const success = await store.createTrack(payload);
+  notification.value = success ? 'Track created successfully' : null;
 };
 
 const updateTrack = async (track: Track) => {
+  notification.value = null;
   const { id, ...rest } = track;
   showModal.value = false;
-  await store.updateTrack(id, rest);
-  notification.value = 'Track updated successfully';
-  setTimeout(() => {
-    notification.value = null;
-  }, 3000);
+  const success = await store.updateTrack(id, rest);
+  notification.value = success ? 'Track updated successfully' : null;
 };
 </script>
