@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\HttpFoundation\Response;
 
 class TrackController extends AbstractController
 {
@@ -16,41 +17,54 @@ class TrackController extends AbstractController
     {
     }
 
-    #[Route('/api/tracks', methods: ['GET'], format: 'json')]
+        #[Route('/api/tracks', methods: ['GET'], format: 'json')]
     public function getAll(): JsonResponse
     {
         $tracks = $this->trackRepository->findAll();
-        return $this->json($tracks);
+
+        return $this->json(
+            $tracks,
+            Response::HTTP_OK,
+            context: ['groups' => 'track:read']
+        );
     }
 
     #[Route('/api/tracks', methods: ['POST'], format: 'json')]
     public function create(
-        #[MapRequestPayload] TrackRequest $trackCreateRequest
-    ): JsonResponse
-    {
+        #[MapRequestPayload] TrackRequest $request
+    ): JsonResponse {
         $track = (new Track())
-            ->setTitle($trackCreateRequest->title)
-            ->setArtist($trackCreateRequest->artist)
-            ->setDuration($trackCreateRequest->duration)
-            ->setIsrc($trackCreateRequest->isrc);
+            ->setTitle($request->title)
+            ->setArtist($request->artist)
+            ->setDuration($request->duration)
+            ->setIsrc($request->isrc);
 
         $this->trackRepository->save($track);
-        return $this->json($track, 201);
+
+        return $this->json(
+            $track,
+            Response::HTTP_CREATED,
+            context: ['groups' => 'track:write']
+        );
     }
 
     #[Route('/api/tracks/{id}', methods: ['PUT'], format: 'json')]
     public function update(
-        Track $existingTrack,
-        #[MapRequestPayload] TrackRequest $trackRequest,
-    ): JsonResponse
-    {
-        $existingTrack
-            ->setTitle($trackRequest->title)
-            ->setArtist($trackRequest->artist)
-            ->setDuration($trackRequest->duration)
-            ->setIsrc($trackRequest->isrc);
+        Track $track,
+        #[MapRequestPayload] TrackRequest $request,
+    ): JsonResponse {
+        $track
+            ->setTitle($request->title)
+            ->setArtist($request->artist)
+            ->setDuration($request->duration)
+            ->setIsrc($request->isrc);
 
-        $this->trackRepository->save($existingTrack);
-        return $this->json($existingTrack);
+        $this->trackRepository->save($track);
+
+        return $this->json(
+            $track,
+            Response::HTTP_OK,
+            context: ['groups' => 'track:write']
+        );
     }
 }

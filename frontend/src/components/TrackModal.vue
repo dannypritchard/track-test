@@ -11,7 +11,7 @@
             v-model="local.title"
             required
             :maxlength="255"
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
           />
         </div>
         <div class="mb-4">
@@ -20,7 +20,7 @@
             v-model="local.artist"
             required
             :maxlength="255"
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
           />
         </div>
         <div class="mb-4">
@@ -30,7 +30,7 @@
             type="number"
             min="1"
             required
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
           />
         </div>
         <div class="mb-6">
@@ -40,20 +40,20 @@
             placeholder="US-ABC-12-34567"
             pattern="^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$"
             :maxlength="20"
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
           />
         </div>
         <div class="flex justify-end space-x-2">
           <button
             type="button"
             @click="$emit('close')"
-            class="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-200 rounded-sm hover:bg-gray-50 focus:outline-none focus:ring-3 focus:ring-gray-500 text-sm"
+            class="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-200 rounded-sm hover:bg-gray-50 focus:outline-none focus:ring-3 focus:ring-gray-500 text-sm cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
-            class="px-4 py-2 font-medium text-white bg-indigo-600 rounded-sm hover:bg-indigo-700 focus:outline-none focus:ring-3 focus:ring-indigo-500 text-sm"
+            class="px-4 py-2 font-medium text-white bg-blue-600 rounded-sm hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-blue-500 text-sm cursor-pointer"
           >
             {{ isEdit ? 'Save' : 'Add' }}
           </button>

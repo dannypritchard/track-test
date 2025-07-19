@@ -8,13 +8,13 @@ import { RouterLink, RouterView } from 'vue-router';
       <nav class="flex space-x-6 py-4">
         <RouterLink
           to="/"
-          class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           Home
         </RouterLink>
         <RouterLink
           to="/about"
-          class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           About
         </RouterLink>

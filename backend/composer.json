@@ -25,8 +25,7 @@
     "symfony/serializer": "^7.3"
   },
   "require-dev": {
-    "symfony/debug-bundle": "^7.3",
-    "phpstan/phpstan": "^2.1"
+    "symfony/debug-bundle": "^7.3"
   },
   "config": {
     "allow-plugins": {

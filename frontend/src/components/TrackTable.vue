@@ -22,22 +22,28 @@
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       <tr v-for="t in tracks" :key="t.id" class="hover:bg-gray-50">
-        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-all">
+        <td
+          class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-all"
+        >
           {{ t.title }}
         </td>
-        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-all">
+        <td
+          class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-all"
+        >
           {{ t.artist }}
         </td>
         <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal">
           {{ formatTime(t.duration) }}
         </td>
-        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-keep">
+        <td
+          class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-keep"
+        >
           {{ t.isrc }}
         </td>
         <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal">
           <button
             @click="$emit('edit', t)"
-            class="px-4 py-2 font-medium text-white bg-indigo-600 rounded-sm hover:bg-indigo-700 focus:outline-none focus:ring-3 focus:ring-indigo-500 text-sm"
+            class="px-4 py-2 font-medium text-white bg-blue-600 rounded-sm hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-blue-500 text-sm cursor-pointer"
           >
             Edit
           </button>

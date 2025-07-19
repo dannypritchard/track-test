@@ -18,7 +18,7 @@
 
     <button
       @click="openAddModal"
-      class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-sm hover:bg-green-700 focus:outline-none focus:ring-3 focus:ring-green-500"
+      class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-sm hover:bg-green-700 focus:outline-none focus:ring-3 focus:ring-green-500 cursor-pointer"
     >
       Add Track
     </button>
