@@ -1,71 +1,94 @@
 <template>
-  <Suspense fallback="Loading tracks...">
-    <ul>
-      <TrackTableItem v-for="track in tracks" :key="track.id" :track="track" />
-    </ul>
-  </Suspense>
+  <div>
+    <h1>My Tracks</h1>
 
-  <button @click="createTrack({ title: 'New Track' })">Add Track</button>
-  <button @click="updateTrack({ title: 'Updated Track' })">Update Track</button>
+    <div v-if="loading">Loading tracks…</div>
+
+    <div v-if="error" class="error">{{ error }}</div>
+
+    <ul v-if="tracks.length">
+      <TrackTableItem
+        v-for="track in tracks"
+        :key="track.id"
+        :track="track"
+        @update="updateTrack"
+      />
+    </ul>
+
+    <hr />
+
+    <h2>Add New Track</h2>
+    <form @submit.prevent="handleAdd">
+      <label for="newTitle">Title:</label>
+      <input id="newTitle" v-model="formValues.title" placeholder="Track Title" required />
+      <label for="newArtist">Artist:</label>
+      <input id="newArtist" v-model="formValues.artist" placeholder="Track Artist" required />
+      <label for="newDuration">Duration (seconds):</label>
+      <input id="newDuration" v-model.number="formValues.duration" type="number" min="1" required />
+      <label for="newIsrc">ISRC:</label>
+      <input
+        id="newIsrc"
+        v-model="formValues.isrc"
+        placeholder="ISRC (e.g., US-ABC-12-34567)"
+        pattern="^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$"
+      />
+      <button type="submit">Add Track</button>
+    </form>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { api } from '@/api';
+import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import TrackTableItem from '@/components/TrackTableItem.vue';
 import { useTracksStore } from '@/stores/track';
-import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import type { ISRC } from '@/types/track';
 
-const tracksStore = useTracksStore();
-const { addTrack } = tracksStore;
-const { tracks } = storeToRefs(tracksStore);
+const store = useTracksStore();
+const { tracks, loading, error } = storeToRefs(store);
 
-onMounted(async () => {
-  try {
-    const data = await api.fetchTracks();
-    data.forEach((track) => addTrack(track));
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error('Failed to fetch tracks:', err.message);
-    } else {
-      console.error('Failed to fetch tracks:', err);
-    }
-  }
+onMounted(() => {
+  store.fetchTracks();
 });
 
-const createTrack = async (track: { title: string }) => {
-  try {
-    const newTrack = await api.createTrack({
-      ...track,
-      artist: 'Unknown Artist',
-      duration: 1,
-      isrc: null,
-    });
-    addTrack(newTrack);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error('Failed to upload track:', err.message);
-    } else {
-      console.error('Failed to upload track:', err);
-    }
-  }
+const formValues = ref({
+  title: '',
+  artist: '',
+  duration: 1,
+  isrc: '',
+});
+
+const validateForm = (form: typeof formValues.value) => {
+  return form.title && form.artist && form.duration > 0;
 };
 
-const updateTrack = async (track: { title: string }) => {
-  try {
-    const newTrack = await api.updateTrack(1, {
-      ...track,
-      artist: 'Unknown Artist',
-      duration: 1,
-      isrc: null,
-    });
-    addTrack(newTrack);
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error('Failed to upload track:', err.message);
-    } else {
-      console.error('Failed to upload track:', err);
-    }
+const clearForm = () => {
+  formValues.value = { title: '', artist: '', duration: 1, isrc: '' };
+};
+
+const handleAdd = async (event: Event) => {
+  event.preventDefault();
+
+  if (!validateForm(formValues.value)) {
+    return;
   }
+
+  await store.createTrack({
+    title: formValues.value.title,
+    artist: formValues.value.artist,
+    duration: formValues.value.duration,
+    isrc: (formValues.value.isrc as ISRC) || null,
+  });
+
+  clearForm();
+};
+
+const updateTrack = async (id: number, title: string) => {
+  await store.updateTrack(id, {
+    title,
+    artist: 'Unknown Artist',
+    duration: 1,
+    isrc: null,
+  });
 };
 </script>

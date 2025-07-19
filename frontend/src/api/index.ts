@@ -2,6 +2,10 @@ import type { Track, TrackRequest } from '@/types/track';
 
 const baseUrl = 'http://localhost:8000/api';
 
+/**
+ * TODO: object validation with zod/valibot/yup
+ * We're assuming the API is stable and returns the expected data structure.
+ */
 export const api = {
   async fetchTracks() {
     const tracksResponse = await fetch(`${baseUrl}/tracks`);
