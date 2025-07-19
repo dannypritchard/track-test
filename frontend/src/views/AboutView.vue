@@ -13,7 +13,7 @@
         </li>
         <li>
           Repository pattern with attribute-bound controller input DTOs for clear separation between
-          request data and database entities - no services or groups required
+          request data and database entities - no services required
         </li>
         <li>Nelmio CORS Bundle for handling cross-origin requests</li>
       </ul>

@@ -10,19 +10,25 @@
           <input
             v-model="local.title"
             required
-            :maxlength="255"
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            maxlength="255"
+            class="peer mt-1 block w-full border rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm user-valid:border-green-500 user-invalid:border-red-500"
           />
+          <p class="mt-1 text-sm text-red-600 hidden peer-user-invalid:block">Title is required.</p>
         </div>
+
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 mb-1">Artist (255 max)</label>
           <input
             v-model="local.artist"
             required
-            :maxlength="255"
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            maxlength="255"
+            class="peer mt-1 block w-full border rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm user-valid:border-green-500 user-invalid:border-red-500"
           />
+          <p class="mt-1 text-sm text-red-600 hidden peer-user-invalid:block">
+            Artist is required.
+          </p>
         </div>
+
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-700 mb-1">Duration (sec)</label>
           <input
@@ -30,30 +36,38 @@
             type="number"
             min="1"
             required
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            class="peer mt-1 block w-full border rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm user-valid:border-green-500 user-invalid:border-red-500"
           />
+          <p class="mt-1 text-sm text-red-600 hidden peer-user-invalid:block">
+            Please enter a duration ≥ 1.
+          </p>
         </div>
+
         <div class="mb-6">
           <label class="block text-sm font-medium text-gray-700 mb-1">ISRC</label>
           <input
             v-model="local.isrc"
             placeholder="US-ABC-12-34567"
             pattern="^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$"
-            :maxlength="20"
-            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            maxlength="20"
+            class="peer mt-1 block w-full border rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-blue-500 focus:border-blue-500 text-sm user-valid:border-green-500 user-invalid:border-red-500"
           />
+          <p class="mt-1 text-sm text-red-600 hidden peer-user-invalid:block">
+            Must match ISRC format.
+          </p>
         </div>
+
         <div class="flex justify-end space-x-2">
           <button
             type="button"
             @click="$emit('close')"
-            class="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-200 rounded-sm hover:bg-gray-50 focus:outline-none focus:ring-3 focus:ring-gray-500 text-sm cursor-pointer"
+            class="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-200 rounded-sm hover:bg-gray-50 focus:outline-none focus:ring-3 focus:ring-gray-500 text-sm"
           >
             Cancel
           </button>
           <button
             type="submit"
-            class="px-4 py-2 font-medium text-white bg-blue-600 rounded-sm hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-blue-500 text-sm cursor-pointer"
+            class="px-4 py-2 font-medium text-white bg-blue-600 rounded-sm hover:bg-blue-700 focus:outline-none focus:ring-3 focus:ring-blue-500 text-sm"
           >
             {{ isEdit ? 'Save' : 'Add' }}
           </button>
