@@ -1,94 +1,73 @@
 <template>
-  <div>
-    <h1>My Tracks</h1>
+  <div class="container mx-auto px-4 py-6">
+    <h1 class="mb-4 text-3xl font-bold">Track App by Danny Pritchard</h1>
 
-    <div v-if="loading">Loading tracks…</div>
+    <Loader v-if="loading" />
 
-    <div v-if="error" class="error">{{ error }}</div>
+    <div v-if="error" class="mb-4 text-red-500">
+      {{ error }}
+    </div>
 
-    <ul v-if="tracks.length">
-      <TrackTableItem
-        v-for="track in tracks"
-        :key="track.id"
-        :track="track"
-        @update="updateTrack"
-      />
-    </ul>
+    <TrackTable v-if="tracks.length" :tracks="tracks" @edit="openEditModal" />
 
-    <hr />
+    <div v-else class="text-gray-500">No tracks yet.</div>
 
-    <h2>Add New Track</h2>
-    <form @submit.prevent="handleAdd">
-      <label for="newTitle">Title:</label>
-      <input id="newTitle" v-model="formValues.title" placeholder="Track Title" required />
-      <label for="newArtist">Artist:</label>
-      <input id="newArtist" v-model="formValues.artist" placeholder="Track Artist" required />
-      <label for="newDuration">Duration (seconds):</label>
-      <input id="newDuration" v-model.number="formValues.duration" type="number" min="1" required />
-      <label for="newIsrc">ISRC:</label>
-      <input
-        id="newIsrc"
-        v-model="formValues.isrc"
-        placeholder="ISRC (e.g., US-ABC-12-34567)"
-        pattern="^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$"
-      />
-      <button type="submit">Add Track</button>
-    </form>
+    <button
+      @click="openAddModal"
+      class="mt-4 cursor-pointer rounded-sm bg-green-600 px-4 py-2 text-white focus:outline-none focus:ring-3 focus:ring-green-500"
+    >
+      Add Track
+    </button>
+
+    <TrackModal
+      :show="showModal"
+      :track="modalTrack"
+      @save="createTrack"
+      @update="updateTrack"
+      @close="showModal = false"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import TrackTableItem from '@/components/TrackTableItem.vue';
 import { useTracksStore } from '@/stores/track';
-import type { ISRC } from '@/types/track';
+
+import type { Track, TrackRequest } from '@/types/track';
+
+import Loader from '@/components/LoadingSpinner.vue';
+import TrackModal from '@/components/TrackModal.vue';
+import TrackTable from '@/components/TrackTable.vue';
 
 const store = useTracksStore();
 const { tracks, loading, error } = storeToRefs(store);
+
+const showModal = ref(false);
+const modalTrack = ref<Track | undefined>();
 
 onMounted(() => {
   store.fetchTracks();
 });
 
-const formValues = ref({
-  title: '',
-  artist: '',
-  duration: 1,
-  isrc: '',
-});
-
-const validateForm = (form: typeof formValues.value) => {
-  return form.title && form.artist && form.duration > 0;
+const openAddModal = () => {
+  modalTrack.value = undefined;
+  showModal.value = true;
 };
 
-const clearForm = () => {
-  formValues.value = { title: '', artist: '', duration: 1, isrc: '' };
+const openEditModal = (track: Track) => {
+  modalTrack.value = track;
+  showModal.value = true;
 };
 
-const handleAdd = async (event: Event) => {
-  event.preventDefault();
-
-  if (!validateForm(formValues.value)) {
-    return;
-  }
-
-  await store.createTrack({
-    title: formValues.value.title,
-    artist: formValues.value.artist,
-    duration: formValues.value.duration,
-    isrc: (formValues.value.isrc as ISRC) || null,
-  });
-
-  clearForm();
+const createTrack = async (payload: TrackRequest) => {
+  showModal.value = false;
+  await store.createTrack(payload);
 };
 
-const updateTrack = async (id: number, title: string) => {
-  await store.updateTrack(id, {
-    title,
-    artist: 'Unknown Artist',
-    duration: 1,
-    isrc: null,
-  });
+const updateTrack = async (track: Track) => {
+  const { id, ...rest } = track;
+  showModal.value = false;
+  await store.updateTrack(id, rest);
 };
 </script>
