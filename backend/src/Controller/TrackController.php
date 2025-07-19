@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Dto\TrackRequest;
 use App\Entity\Track;
 use App\Repository\TrackRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 
 class TrackController extends AbstractController
 {
@@ -21,31 +23,33 @@ class TrackController extends AbstractController
         return $this->json($tracks);
     }
 
-    #[Route('/api/tracks/{id}', methods: ['GET'])]
-    public function get(int $id): JsonResponse
-    {
-        $track = $this->trackRepository->find($id);
-        if (!$track) {
-            return $this->json(['error' => 'Track not found'], 404);
-        }
-        return $this->json($track);
-    }
-
     #[Route('/api/tracks', methods: ['POST'])]
-    public function create(int $id): JsonResponse
+    public function create(
+        #[MapRequestPayload] TrackRequest $trackCreateRequest
+    ): JsonResponse
     {
+        $track = (new Track())
+            ->setTitle($trackCreateRequest->title)
+            ->setArtist($trackCreateRequest->artist)
+            ->setDuration($trackCreateRequest->duration)
+            ->setIsrc($trackCreateRequest->isrc);
+
         $this->trackRepository->save($track);
         return $this->json($track, 201);
     }
 
     #[Route('/api/tracks/{id}', methods: ['PUT'])]
-    public function update(int $id): JsonResponse
+    public function update(
+        Track $existingTrack,
+        #[MapRequestPayload] TrackRequest $trackRequest,
+    ): JsonResponse
     {
-        $existingTrack = $this->trackRepository->find($id);
-        if (!$existingTrack) {
-            return $this->json(['error' => 'Track not found'], 404);
-        }
-        $existingTrack->setName($track->getName());
+        $existingTrack
+            ->setTitle($trackRequest->title)
+            ->setArtist($trackRequest->artist)
+            ->setDuration($trackRequest->duration)
+            ->setIsrc($trackRequest->isrc);
+
         $this->trackRepository->save($existingTrack);
         return $this->json($existingTrack);
     }

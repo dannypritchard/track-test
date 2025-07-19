@@ -6,13 +6,13 @@
 </template>
 
 <script setup lang="ts">
-import { useTracksStore } from '@/stores/track'
-import type { Track } from '@/types/track'
+import { useTracksStore } from '@/stores/track';
+import type { Track } from '@/types/track';
 
-const tracksStore = useTracksStore()
-const { removeTrack } = tracksStore
+const tracksStore = useTracksStore();
+const { removeTrack } = tracksStore;
 
-const props = defineProps<{
-  track: Track
-}>()
+defineProps<{
+  track: Track;
+}>();
 </script>
