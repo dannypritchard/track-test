@@ -12,8 +12,8 @@
           security fixes
         </li>
         <li>
-          Repository pattern with attribute-bound controller input DTOs for clear separation between request
-          data and database entities - no services or groups required
+          Repository pattern with attribute-bound controller input DTOs for clear separation between
+          request data and database entities - no services or groups required
         </li>
         <li>Nelmio CORS Bundle for handling cross-origin requests</li>
       </ul>

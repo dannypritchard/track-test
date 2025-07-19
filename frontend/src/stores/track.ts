@@ -23,7 +23,11 @@ export const useTracksStore = defineStore('tracks', () => {
 
   const fetchTracks = async () => {
     const data = await wrapRequest(() => api.fetchTracks());
-    if (data) tracks.value = data;
+    if (data) {
+      tracks.value = data;
+      return true;
+    }
+    return false;
   };
 
   const createTrack = async (payload: TrackRequest) => {
