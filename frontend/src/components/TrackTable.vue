@@ -22,22 +22,22 @@
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
       <tr v-for="t in tracks" :key="t.id" class="hover:bg-gray-50">
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-all">
           {{ t.title }}
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-all">
           {{ t.artist }}
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal">
           {{ formatTime(t.duration) }}
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal break-keep">
           {{ t.isrc }}
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-center text-sm border border-gray-200">
+        <td class="px-6 py-4 text-sm text-gray-900 border border-gray-200 whitespace-normal">
           <button
             @click="$emit('edit', t)"
-            class="font-medium text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-3 focus:ring-indigo-500"
+            class="px-4 py-2 font-medium text-white bg-indigo-600 rounded-sm hover:bg-indigo-700 focus:outline-none focus:ring-3 focus:ring-indigo-500 text-sm"
           >
             Edit
           </button>
