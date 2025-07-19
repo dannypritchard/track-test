@@ -1,20 +1,24 @@
 <template>
-  <div class="container mx-auto px-4 py-6">
-    <h1 class="mb-4 text-3xl font-bold">Track App by Danny Pritchard</h1>
+  <div>
+    <h1 class="mb-4 text-3xl font-bold text-gray-900">Track App by Danny Pritchard</h1>
 
-    <Loader v-if="loading" />
+    <Loader v-if="loading" class="mb-4" />
 
     <div v-if="error" class="mb-4 text-red-500">
       {{ error }}
     </div>
 
-    <TrackTable v-if="tracks.length" :tracks="tracks" @edit="openEditModal" />
+    <div v-if="notification" class="mb-4 p-3 bg-green-100 text-green-800 rounded">
+      {{ notification }}
+    </div>
 
-    <div v-else class="text-gray-500">No tracks yet.</div>
+    <TrackTable v-if="tracks.length" :tracks="tracks" @edit="openEditModal" class="mb-6" />
+
+    <div v-else class="mb-6 text-gray-500">Please add a track using the button below.</div>
 
     <button
       @click="openAddModal"
-      class="mt-4 cursor-pointer rounded-sm bg-green-600 px-4 py-2 text-white focus:outline-none focus:ring-3 focus:ring-green-500"
+      class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-sm hover:bg-green-700 focus:outline-none focus:ring-3 focus:ring-green-500"
     >
       Add Track
     </button>
@@ -46,6 +50,8 @@ const { tracks, loading, error } = storeToRefs(store);
 const showModal = ref(false);
 const modalTrack = ref<Track | undefined>();
 
+const notification = ref<string | null>(null);
+
 onMounted(() => {
   store.fetchTracks();
 });
@@ -63,11 +69,19 @@ const openEditModal = (track: Track) => {
 const createTrack = async (payload: TrackRequest) => {
   showModal.value = false;
   await store.createTrack(payload);
+  notification.value = 'Track created successfully';
+  setTimeout(() => {
+    notification.value = null;
+  }, 3000);
 };
 
 const updateTrack = async (track: Track) => {
   const { id, ...rest } = track;
   showModal.value = false;
   await store.updateTrack(id, rest);
+  notification.value = 'Track updated successfully';
+  setTimeout(() => {
+    notification.value = null;
+  }, 3000);
 };
 </script>

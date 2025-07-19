@@ -1,56 +1,59 @@
 <template>
-  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black/50">
-    <div class="w-96 rounded-lg bg-white p-6">
-      <h3 class="mb-4 text-xl font-semibold">
+  <div v-if="show" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+      <h3 class="mb-4 text-xl font-semibold text-gray-900">
         {{ isEdit ? 'Edit Track' : 'Add New Track' }}
       </h3>
       <form @submit.prevent="submit">
         <div class="mb-4">
-          <label class="block text-sm font-medium mb-1">Title</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Title (255 max)</label>
           <input
             v-model="local.title"
             required
-            class="w-full rounded-sm border border-gray-200 px-2 py-1 focus:outline-none focus:ring-3 focus:ring-blue-500"
+            :maxlength="255"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           />
         </div>
         <div class="mb-4">
-          <label class="block text-sm font-medium mb-1">Artist</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Artist (255 max)</label>
           <input
             v-model="local.artist"
             required
-            class="w-full rounded-sm border border-gray-200 px-2 py-1 focus:outline-none focus:ring-3 focus:ring-blue-500"
+            :maxlength="255"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           />
         </div>
         <div class="mb-4">
-          <label class="block text-sm font-medium mb-1">Duration (sec)</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Duration (sec)</label>
           <input
             v-model.number="local.duration"
             type="number"
             min="1"
             required
-            class="w-full rounded-sm border border-gray-200 px-2 py-1 focus:outline-none focus:ring-3 focus:ring-blue-500"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           />
         </div>
         <div class="mb-6">
-          <label class="block text-sm font-medium mb-1">ISRC</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1">ISRC</label>
           <input
             v-model="local.isrc"
             placeholder="US-ABC-12-34567"
             pattern="^[A-Z]{2}-[A-Z0-9]{3}-\d{2}-\d{5}$"
-            class="w-full rounded-sm border border-gray-200 px-2 py-1 focus:outline-none focus:ring-3 focus:ring-blue-500"
+            :maxlength="20"
+            class="mt-1 block w-full border border-gray-300 rounded-sm px-3 py-2 placeholder-gray-400 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
           />
         </div>
         <div class="flex justify-end space-x-2">
           <button
             type="button"
             @click="$emit('close')"
-            class="px-4 py-2 rounded-sm cursor-pointer focus:outline-none focus:ring-3 focus:ring-gray-500"
+            class="px-4 py-2 font-medium text-gray-700 bg-white border border-gray-200 rounded-sm hover:bg-gray-50 focus:outline-none focus:ring-3 focus:ring-gray-500 text-sm"
           >
             Cancel
           </button>
           <button
             type="submit"
-            class="bg-blue-600 px-4 py-2 rounded-sm text-white cursor-pointer focus:outline-none focus:ring-3 focus:ring-blue-500"
+            class="px-4 py-2 font-medium text-white bg-indigo-600 rounded-sm hover:bg-indigo-700 focus:outline-none focus:ring-3 focus:ring-indigo-500 text-sm"
           >
             {{ isEdit ? 'Save' : 'Add' }}
           </button>
@@ -80,6 +83,7 @@ const local = reactive<Omit<Track, 'id'>>({
   isrc: props.track?.isrc || null,
 });
 
+// Initialize local state when props.track changes
 watch(
   () => props.track,
   (track) => {
@@ -89,6 +93,19 @@ watch(
     local.isrc = track?.isrc ?? null;
   },
   { immediate: true },
+);
+
+// Reset local state when modal is closed
+watch(
+  () => props.show,
+  (visible) => {
+    if (visible) {
+      local.title = props.track?.title ?? '';
+      local.artist = props.track?.artist ?? '';
+      local.duration = props.track?.duration ?? 1;
+      local.isrc = props.track?.isrc ?? null;
+    }
+  },
 );
 
 const submit = () => {

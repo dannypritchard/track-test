@@ -4,17 +4,17 @@ import { RouterLink, RouterView } from 'vue-router';
 
 <template>
   <header class="bg-white shadow-sm">
-    <div class="container mx-auto px-4">
+    <div class="mx-auto max-w-4xl px-4">
       <nav class="flex space-x-6 py-4">
         <RouterLink
           to="/"
-          class="cursor-pointer text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-3 focus:ring-indigo-500"
+          class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           Home
         </RouterLink>
         <RouterLink
           to="/about"
-          class="cursor-pointer text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-3 focus:ring-indigo-500"
+          class="text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           About
         </RouterLink>
@@ -22,6 +22,7 @@ import { RouterLink, RouterView } from 'vue-router';
     </div>
   </header>
 
-  <RouterView />
+  <main class="mx-auto max-w-4xl px-4 py-6">
+    <RouterView />
+  </main>
 </template>
-<style scoped></style>

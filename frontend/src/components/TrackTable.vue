@@ -1,24 +1,43 @@
+<!-- TrackTable.vue -->
 <template>
-  <table class="min-w-full border-collapse">
+  <table class="min-w-full divide-y divide-gray-200 border-collapse">
     <thead>
       <tr class="bg-gray-100">
-        <th class="border border-gray-200 px-4 py-2 text-left">Title</th>
-        <th class="border border-gray-200 px-4 py-2 text-left">Artist</th>
-        <th class="border border-gray-200 px-4 py-2 text-left">Duration</th>
-        <th class="border border-gray-200 px-4 py-2 text-left">ISRC</th>
-        <th class="border border-gray-200 px-4 py-2 text-center">Actions</th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 border border-gray-200">
+          Title
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 border border-gray-200">
+          Artist
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 border border-gray-200">
+          Duration
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 border border-gray-200">
+          ISRC
+        </th>
+        <th class="px-6 py-3 text-center text-sm font-medium text-gray-700 border border-gray-200">
+          Actions
+        </th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="bg-white divide-y divide-gray-200">
       <tr v-for="t in tracks" :key="t.id" class="hover:bg-gray-50">
-        <td class="border border-gray-200 px-4 py-2">{{ t.title }}</td>
-        <td class="border border-gray-200 px-4 py-2">{{ t.artist }}</td>
-        <td class="border border-gray-200 px-4 py-2">{{ formatTime(t.duration) }}</td>
-        <td class="border border-gray-200 px-4 py-2">{{ t.isrc }}</td>
-        <td class="border border-gray-200 px-4 py-2 text-center">
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+          {{ t.title }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+          {{ t.artist }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+          {{ formatTime(t.duration) }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-200">
+          {{ t.isrc }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-center text-sm border border-gray-200">
           <button
             @click="$emit('edit', t)"
-            class="text-blue-600 cursor-pointer focus:outline-none focus:ring-3 focus:ring-blue-500"
+            class="font-medium text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-3 focus:ring-indigo-500"
           >
             Edit
           </button>

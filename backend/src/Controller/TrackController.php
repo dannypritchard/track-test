@@ -16,14 +16,14 @@ class TrackController extends AbstractController
     {
     }
 
-    #[Route('/api/tracks', methods: ['GET'])]
+    #[Route('/api/tracks', methods: ['GET'], format: 'json')]
     public function getAll(): JsonResponse
     {
         $tracks = $this->trackRepository->findAll();
         return $this->json($tracks);
     }
 
-    #[Route('/api/tracks', methods: ['POST'])]
+    #[Route('/api/tracks', methods: ['POST'], format: 'json')]
     public function create(
         #[MapRequestPayload] TrackRequest $trackCreateRequest
     ): JsonResponse
@@ -38,7 +38,7 @@ class TrackController extends AbstractController
         return $this->json($track, 201);
     }
 
-    #[Route('/api/tracks/{id}', methods: ['PUT'])]
+    #[Route('/api/tracks/{id}', methods: ['PUT'], format: 'json')]
     public function update(
         Track $existingTrack,
         #[MapRequestPayload] TrackRequest $trackRequest,
